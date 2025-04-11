@@ -1,10 +1,14 @@
+using System;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 public class Player : MonoBehaviour
 {
     [SerializeField] private Rigidbody rb;
-    [FormerlySerializedAs("velocity")] [FormerlySerializedAs("acceleration")] [SerializeField] private float speed;
+    [SerializeField] private float speed;
+    [SerializeField] private int hp;
+    public event Action OnDeath; 
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -30,5 +34,31 @@ public class Player : MonoBehaviour
         {
             rb.AddForce(gameObject.transform.right * speed, ForceMode.VelocityChange);
         }
+    }
+
+    private void OnCollisionEnter(Collision collisionEvent)
+    {
+        GameObject collisionSource = collisionEvent.gameObject;
+        Enemy isColliderEnemy = collisionSource.GetComponent<Enemy>();
+        if (isColliderEnemy == null)
+        {
+            return;
+        }
+        Damage(1);
+    }
+
+    private void Damage(int dmgValue)
+    {
+        hp -= dmgValue;
+        if (hp <= 0)
+        {
+            KillPlayer();
+        }
+    }
+
+    private void KillPlayer()
+    {
+        OnDeath?.Invoke();
+        Destroy(gameObject);
     }
 }
