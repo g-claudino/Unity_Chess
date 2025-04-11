@@ -4,7 +4,7 @@ using UnityEngine.Serialization;
 
 public class Enemy : MonoBehaviour
 {
-    float currTime = 0f;
+    private float currTime = 0f;
     
     private Player player = null;
 
@@ -17,7 +17,10 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Rigidbody rb;
     [SerializeField, Range(0f, 2f)] private float speed;
     [SerializeField, Range(10f, 100f)] private float LifeSpan;
+    [SerializeField] private int damage;
 
+    public int Damage => damage;
+    
     void Start()
     {
         player = FindObjectsByType<Player>(FindObjectsInactive.Exclude, FindObjectsSortMode.None)[0];
@@ -55,4 +58,5 @@ public class Enemy : MonoBehaviour
     {
         activeEnemy = true;
     }
+    
 }
