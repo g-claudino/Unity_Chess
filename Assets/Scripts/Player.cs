@@ -9,20 +9,26 @@ public class Player : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private int hp;
     [SerializeField] private float iFramesSeconds;
-    
+    [SerializeField] private Bullet projectile;
+    [SerializeField] private Transform bulletSpawn;
+    [SerializeField] private float shootingCooldownSeconds;
     public event Action OnDeath; 
     
     private bool isInvincible;
+    private float shootingElapsedSeconds = float.PositiveInfinity;
     
+    public ETeam Team{get; private set;}
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         isInvincible = false;
+        Team = ETeam.Player;
     }
 
     // Update is called once per frame
     void Update()
     {
+        shootingElapsedSeconds += Time.deltaTime;
         ProcessInput();
     }
 
@@ -45,6 +51,15 @@ public class Player : MonoBehaviour
         {
             rb.AddForce(gameObject.transform.right * speed, ForceMode.VelocityChange);
         }
+
+        if (Input.GetKey(KeyCode.Space) || Input.GetMouseButton(0)) 
+        {
+            if (shootingElapsedSeconds > shootingCooldownSeconds)
+            {
+                shootingElapsedSeconds = 0f;
+                ShootBullet();
+            }
+        }
     }
 
     private void OnCollisionStay(Collision collisionEvent)
@@ -60,7 +75,7 @@ public class Player : MonoBehaviour
         TakeDamage(enemy.Damage);
     }
     
-    private void TakeDamage(int dmgValue)
+    public void TakeDamage(int dmgValue)
     {
         hp -= dmgValue;
         if (hp <= 0)
@@ -97,5 +112,13 @@ public class Player : MonoBehaviour
     {
         OnDeath?.Invoke();
         Destroy(gameObject);
+    }
+
+    private void ShootBullet()
+    { 
+        Bullet clone = Instantiate(projectile);
+        clone.transform.position = bulletSpawn.position;
+        clone.Setup(transform.forward, Team);
+        clone.Fffire();
     }
 }

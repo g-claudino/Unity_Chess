@@ -16,14 +16,16 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] private Rigidbody rb;
     [SerializeField, Range(0f, 2f)] private float speed;
-    [SerializeField, Range(10f, 100f)] private float LifeSpan;
     [SerializeField] private int damage;
+    [SerializeField] private int hp;
 
     public int Damage => damage;
     
+    public ETeam Team{get; private set;}
     void Start()
     {
         player = FindObjectsByType<Player>(FindObjectsInactive.Exclude, FindObjectsSortMode.None)[0];
+        Team = ETeam.Enemy;
     }
 
     // Update is called once per frame
@@ -33,7 +35,6 @@ public class Enemy : MonoBehaviour
 
         currTime += Time.deltaTime;
         TrackPlayerPosition();
-        RemoveFromPlay(currTime);
     }
 
     void TrackPlayerPosition()
@@ -45,13 +46,9 @@ public class Enemy : MonoBehaviour
         rb.AddForce(deltaPosition * speed, ForceMode.VelocityChange);
     }
 
-    void RemoveFromPlay(float passedTime)
+    void RemoveFromPlay()
     {
-        if (passedTime >= LifeSpan)
-        {
-            activeEnemy = false;
-            Destroy(gameObject);
-        }
+        Destroy(gameObject);
     }
 
     public void ActivateEnemy()
@@ -59,4 +56,12 @@ public class Enemy : MonoBehaviour
         activeEnemy = true;
     }
     
+    public void TakeDamage(int dmgValue)
+    {
+        hp -= dmgValue;
+        if (hp <= 0)
+        {
+            RemoveFromPlay();
+        }
+    }
 }
