@@ -30,11 +30,12 @@ public class Spawner : MonoBehaviour
         {
             MaximumPositions = arenaFloor.bounds.center + arenaFloor.bounds.extents;
             currTime = 0f;
-            rX = Random.Range(-MaximumPositions.x + wallMargin, MaximumPositions.x - wallMargin);
-            rY = MaximumPositions.y + enemyCollider.bounds.extents.y;
-            rZ = Random.Range(-MaximumPositions.z + wallMargin, MaximumPositions.z - wallMargin);
-            Enemy clone = Instantiate(SpawnEnemy, new Vector3(rX, rY, rZ),
+            Enemy clone = Instantiate(SpawnEnemy, new Vector3(0, 0, 0),
                 Quaternion.identity);
+            rX = Random.Range(-MaximumPositions.x + wallMargin, MaximumPositions.x - wallMargin);
+            rY = MaximumPositions.y + clone.GetComponent<Collider>().bounds.extents.y;
+            rZ = Random.Range(-MaximumPositions.z + wallMargin, MaximumPositions.z - wallMargin);
+            clone.transform.position = new Vector3(rX, rY, rZ);
             clone.ActivateEnemy();
         }
     }
