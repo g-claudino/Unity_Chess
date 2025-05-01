@@ -1,5 +1,5 @@
 ﻿public enum ETeam
 {
     Player,
-    Enemy,
+    Enemy
 }

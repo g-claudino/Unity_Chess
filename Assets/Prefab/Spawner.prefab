@@ -47,4 +47,4 @@ MonoBehaviour:
   SpawnTime: 1
   wallMargin: 2
   arenaFloor: {fileID: 0}
-  SpawnEnemy: {fileID: 3929389290974198306, guid: caaf1e1ff8ae0c14cb1c164b18c2d507, type: 3}
+  enemyPreFab: {fileID: 3929389290974198306, guid: caaf1e1ff8ae0c14cb1c164b18c2d507, type: 3}

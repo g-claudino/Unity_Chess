@@ -130,8 +130,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 5641139759290570621}
   speed: 0.5
-  damage: 2
   hp: 5
+  iFramesSeconds: 0
+  damage: 2
+  team: 1
 --- !u!65 &-4176015243799925754
 BoxCollider:
   m_ObjectHideFlags: 0

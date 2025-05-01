@@ -157,6 +157,8 @@ MonoBehaviour:
   speed: 0.5
   hp: 10
   iFramesSeconds: 5
+  damage: 2
+  team: 0
   projectile: {fileID: 4364475322597714246, guid: 16cfb9132d5d37346accacc249adebe1, type: 3}
   bulletSpawn: {fileID: 6144545242576071011}
   shootingCooldownSeconds: 0.5

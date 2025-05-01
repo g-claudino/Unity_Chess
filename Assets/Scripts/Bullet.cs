@@ -1,26 +1,18 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField, Range(10f, 100f)] private float LifeSpan;
-    [SerializeField, Range(1f, 10f)] private float Speed;
+    [SerializeField] [Range(10f, 100f)] private float LifeSpan;
+    [SerializeField] [Range(1f, 10f)] private float Speed;
     [SerializeField] private int Damage;
-
-    private float currTime = 0f;
     private Vector3 bulletVelocity;
-    private bool wasFired = false;
-    private ETeam team;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public void Setup(Vector3 direction, ETeam team)
-    {
-        bulletVelocity = direction * Speed;
-        this.team = team;
-    }
+    private float currTime;
+    private ETeam team;
+    private bool wasFired;
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (wasFired)
         {
@@ -30,33 +22,29 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    void RemoveFromPlay(float passedTime)
-    {
-        if (passedTime >= LifeSpan)
-        {
-            Destroy(gameObject);
-        }
-    }
-
-    public void Fffire()
-    {
-        wasFired = true;
-    }
-
     private void OnTriggerEnter(Collider other)
     {
-        GameObject collisionSource = other.gameObject;
-        Enemy enemy = collisionSource.GetComponent<Enemy>();
-        Player player = collisionSource.GetComponent<Player>();
-        if (enemy != null && team != ETeam.Enemy)
-        {
-             enemy.TakeDamage(Damage);
-        }
-        else if (player != null && team != ETeam.Player)
-        {
-            player.TakeDamage(Damage);
-        }
-
+        var collisionSource = other.gameObject;
+        IDamageable character = collisionSource.GetComponent<BaseCharacter>();
+        character?.TakeDamage(Damage, team);
         RemoveFromPlay(float.PositiveInfinity);
+    }
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public void Setup(Vector3 direction, ETeam team, int damage)
+    {
+        bulletVelocity = direction * Speed;
+        this.team = team;
+        Damage = damage;
+    }
+
+    private void RemoveFromPlay(float passedTime)
+    {
+        if (passedTime >= LifeSpan) Destroy(gameObject);
+    }
+
+    public void Fire()
+    {
+        wasFired = true;
     }
 }
