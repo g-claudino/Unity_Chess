@@ -6,7 +6,7 @@ using UnityEngine;
 public class BaseCharacter : MonoBehaviour, IDamageable
 {
     [SerializeField] protected Rigidbody rb;
-    [SerializeField] protected float speed;
+    [SerializeField, Range(0.5f,10f)] protected float speed;
     [SerializeField] protected int hp;
     [SerializeField] protected float iFramesSeconds;
     [SerializeField] protected int damage;

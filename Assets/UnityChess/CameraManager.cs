@@ -44,14 +44,14 @@ public class CameraManager : MonoBehaviour
 
     private void FollowPlayer()
     {
-        var cameraPosition = cm.transform.position;
-        var playerPosition = player.transform.position;
-        var mouseWheelY = Input.mouseScrollDelta.y;
-        var angle = -Input.mousePositionDelta.x * sensitivityCode;
+        Vector3 cameraPosition = cm.transform.position;
+        Vector3 playerPosition = player.transform.position;
+        float mouseWheelY = Input.mouseScrollDelta.y;
+        float angle = -Input.mousePositionDelta.x * sensitivityCode;
         player.transform.Rotate(Vector3.up, -angle, Space.Self);
         transform.Rotate(Vector3.forward, angle, Space.Self);
-        var distance = Mathf.Clamp(cameraPosition.y + mouseWheelY * zoomCode, minDistance, maxDistance);
-        var targetPosition = new Vector3(playerPosition.x, distance, playerPosition.z);
+        float distance = Mathf.Clamp(cameraPosition.y + mouseWheelY * zoomCode, minDistance, maxDistance);
+        Vector3 targetPosition = new Vector3(playerPosition.x, distance, playerPosition.z);
         //Vector3.SmoothDamp(cameraPosition, targetPosition, ref velocity, 0.1f);
         //transform.position = velocity*cameraSpeed+cameraPosition;
         transform.position = targetPosition;
