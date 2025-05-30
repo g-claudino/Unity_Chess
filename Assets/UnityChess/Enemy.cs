@@ -3,7 +3,7 @@ using System.Numerics;
 using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
 
-public class Enemy : BaseCharacter
+public partial class Enemy : BaseCharacter
 {
     private bool activeEnemy;
     private float currTime;
@@ -19,11 +19,14 @@ public class Enemy : BaseCharacter
 
     [SerializeField] private Animator animator;
     [SerializeField, Range(0f, 4f)] private float attackDistance = 1f;
+    
+    [SerializeField] Hitbox hitbox;
     public int Damage => damage;
 
     private void Start()
     {
         eyeMonsterAnimationController = new EyeMonsterAnimationController(animator);
+        hitbox.DeactivateHitbox();
     }
 
     // Update is called once per frame

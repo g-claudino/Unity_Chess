@@ -14,7 +14,7 @@ public class Player : BaseCharacter
         shootingElapsedSeconds += Time.deltaTime;
         ProcessInput();
     }
-
+/*
     private void OnCollisionStay(Collision collisionEvent)
     {
         var collisionSource = collisionEvent.gameObject;
@@ -22,7 +22,7 @@ public class Player : BaseCharacter
         if (enemy == null) return;
         TakeDamage(enemy.Damage, enemy.Team);
     }
-
+*/
     private void ProcessInput()
     {
         if (Input.GetKey(KeyCode.W))
